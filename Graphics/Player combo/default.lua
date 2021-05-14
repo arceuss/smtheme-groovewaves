@@ -1,15 +1,19 @@
 local c
-local player = Var "Player"
-local ShowComboAt = THEME:GetMetric("Combo", "ShowComboAt")
-local Pulse = THEME:GetMetric("Combo", "PulseCommand")
-local PulseLabel = THEME:GetMetric("Combo", "PulseLabelCommand")
+local player = Var "Player";
+local ShowComboAt = THEME:GetMetric("Combo", "ShowComboAt");
+local Pulse = function(self)
+	local combo=self:GetZoom()
+	local newZoom=scale(combo,0,500,0.9,1.4)
+	self:zoom(1.2*newZoom):linear(0.05):zoom(newZoom)
+end
+local PulseLabel = THEME:GetMetric("Combo", "PulseLabelCommand");
 
-local NumberMinZoom = THEME:GetMetric("Combo", "NumberMinZoom")
-local NumberMaxZoom = THEME:GetMetric("Combo", "NumberMaxZoom")
-local NumberMaxZoomAt = THEME:GetMetric("Combo", "NumberMaxZoomAt")
+local NumberMinZoom = THEME:GetMetric("Combo", "NumberMinZoom");
+local NumberMaxZoom = THEME:GetMetric("Combo", "NumberMaxZoom");
+local NumberMaxZoomAt = THEME:GetMetric("Combo", "NumberMaxZoomAt");
 
-local LabelMinZoom = THEME:GetMetric("Combo", "LabelMinZoom")
-local LabelMaxZoom = THEME:GetMetric("Combo", "LabelMaxZoom")
+local LabelMinZoom = THEME:GetMetric("Combo", "LabelMinZoom");
+local LabelMaxZoom = THEME:GetMetric("Combo", "LabelMaxZoom");
 
 local t = Def.ActorFrame {
  	LoadActor(THEME:GetPathG("Combo","100Milestone")) .. {
@@ -21,12 +25,12 @@ local t = Def.ActorFrame {
 		ToastyAchievedMessageCommand=function(self) self:playcommand("Milestone") end
 	},
 	Def.BitmapText {
-		Font="_Plex Numbers 60px",
+		Font="_xenotron metal",
 		Name="Number",
 		OnCommand = THEME:GetMetric("Combo", "NumberOnCommand"),
 	},
-	Def.BitmapText {
-		Font="_Condensed Semibold",
+	Def.Sprite {
+		Texture=THEME:GetPathG("Combo","Label"),
 		Name="Label",
 		OnCommand = THEME:GetMetric("Combo", "LabelOnCommand"),
 	},
@@ -58,7 +62,7 @@ local t = Def.ActorFrame {
 		end
 
 		local labeltext = param.Combo and "COMBO" or "MISSES"
-		c.Label:settext( labeltext )
+		-- c.Label:settext( labeltext )
 		c.Label:visible(false)
 
 		param.Zoom = scale( iCombo, 0, NumberMaxZoomAt, NumberMinZoom, NumberMaxZoom )
@@ -76,20 +80,20 @@ local t = Def.ActorFrame {
 		
 		-- FullCombo Rewards
 		if param.FullComboW1 then
-			c.Number:diffuse(color("#8CCBFF")):diffusetopedge(color("#ACFFFD")):strokecolor(color("#345660"))
-			c.Label:diffuse(color("#8CCBFF")):diffusetopedge(color("#ACFFFD")):strokecolor(color("#345660"))
+			c.Number:diffuse(color("#8CCBFF")):diffusetopedge(color("#ACFFFD"))
+			c.Label:diffuse(color("#8CCBFF")):diffusetopedge(color("#ACFFFD"))
 		elseif param.FullComboW2 then
-			c.Number:diffuse(color("#FAFAFA")):diffusetopedge(color("#FFFBA3")):strokecolor(color("#A27000"))
-			c.Label:diffuse(color("#FAFAFA")):diffusetopedge(color("#FFFBA3")):strokecolor(color("#A27000"))
+			c.Number:diffuse(color("#FAFAFA")):diffusetopedge(color("#FFFBA3"))
+			c.Label:diffuse(color("#FAFAFA")):diffusetopedge(color("#FFFBA3"))
 		elseif param.FullComboW3 then
-			c.Number:diffuse(color("#8CFFB8")):diffusetopedge(color("#C5FFA3")):strokecolor(color("#1B7E16"))
-			c.Label:diffuse(color("#8CFFB8")):diffusetopedge(color("#C5FFA3")):strokecolor(color("#1B7E16"))
+			c.Number:diffuse(color("#8CFFB8")):diffusetopedge(color("#C5FFA3"))
+			c.Label:diffuse(color("#8CFFB8")):diffusetopedge(color("#C5FFA3"))
 		elseif param.Combo then
-			c.Number:diffuse(color("#FFFFFF")):diffusetopedge(color("#DCE7FB")):strokecolor(color("#101E4B")):stopeffect()
-			c.Label:diffuse(color("#FFFFFF")):diffusetopedge(color("#DCE7FB")):strokecolor(color("#101E4B")):stopeffect()
+			c.Number:diffuse(color("#FFFFFF")):diffusetopedge(color("#DCE7FB"))
+			c.Label:diffuse(color("#FFFFFF")):diffusetopedge(color("#DCE7FB"))
 		else
-			c.Number:diffuse(color("#f7d8d8")):diffusetopedge(color("#db7d7d")):strokecolor(color("#4b1010")):stopeffect()
-			c.Label:diffuse(color("#f7d8d8")):diffusetopedge(color("#db7d7d")):strokecolor(color("#4b1010")):stopeffect()
+			c.Number:diffuse(color("#f7d8d8")):diffusetopedge(color("#db7d7d"))
+			c.Label:diffuse(color("#f7d8d8")):diffusetopedge(color("#db7d7d"))
 		end
 		-- Pulse
 		Pulse( c.Number, param )
